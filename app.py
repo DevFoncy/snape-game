@@ -1,5 +1,7 @@
 import turtle
 import time
+#Para crear numeros random para posicionar la comida en otro lado/
+import random
 
 posponer = 0.1 
 
@@ -25,33 +27,46 @@ cabeza.goto(0,0)
 cabeza.direction = "stop"  #Setemoas en up
 
 
+#Cabeza
+
+#Cabeza serpiente 
+comida = turtle.Turtle()
+comida.speed(0) #Iniciar pantalla el dibujo este ahi
+comida.shape("square") #“arrow”, “turtle”, “circle”, “square”, “triangle”, “classic”.
+comida.penup() #Ppara cuando el snape se mueva no deje rastro
+comida.color("red") #Por default viene en negro
+comida.goto(0,100)
+
+# Segmentos  / cuerpo serpiente
+segmentos=[]
+
 # Funciones 
 def arriba():
-	cabeza.direction = "up"
+ cabeza.direction = "up"
 def abajo():
-	cabeza.direction = "down"
+ cabeza.direction = "down"
 def izquierda():
-	cabeza.direction = "left"
+ cabeza.direction = "left"
 def derecha():
-	cabeza.direction = "right"
+ cabeza.direction = "right"
 
 
 def mov():
-	if cabeza.direction == 'up' :
-		y= cabeza.ycor() #Obtener coordenadas de la coordenada y
-		cabeza.sety( y + 20) #Aumentmaos 20px en el eje Y
+ if cabeza.direction == 'up' :
+  y= cabeza.ycor() #Obtener coordenadas de la coordenada y
+  cabeza.sety( y + 20) #Aumentmaos 20px en el eje Y
 
-	if cabeza.direction == 'down' :
-		y= cabeza.ycor() #Obtener coordenadas de la coordenada y
-		cabeza.sety( y - 20) #Aumentmaos 20px en el eje Y
+ if cabeza.direction == 'down' :
+  y= cabeza.ycor() #Obtener coordenadas de la coordenada y
+  cabeza.sety( y - 20) #Aumentmaos 20px en el eje Y
 
-	if cabeza.direction == 'left' :
-		x= cabeza.xcor() #Obtener coordenadas de la coordenada y
-		cabeza.setx( x - 20) #Aumentmaos 20px en el eje Y	
+ if cabeza.direction == 'left' :
+  x= cabeza.xcor() #Obtener coordenadas de la coordenada y
+  cabeza.setx( x - 20) #Aumentmaos 20px en el eje Y 
 
-	if cabeza.direction == 'right' :
-		x= cabeza.xcor() #Obtener coordenadas de la coordenada y
-		cabeza.setx( x + 20) #Aumentmaos 20px en el eje Y	
+ if cabeza.direction == 'right' :
+  x= cabeza.xcor() #Obtener coordenadas de la coordenada y
+  cabeza.setx( x + 20) #Aumentmaos 20px en el eje Y 
 
 # Teclado
 wn.listen()
@@ -61,11 +76,23 @@ wn.onkeypress(izquierda, "Left")
 wn.onkeypress(derecha, "Right")
 
 
-
 # Estructura de los juegos corriendo en un bucle infinito
 while True:
-	wn.update()
+   	wn.update()
 
-	mov()
+   	if cabeza.distance(comida) < 20:
+   		x=random.randint(-280,280)
+   		y=random.randint(-280,280)
+   		comida.goto(x,y)
 
-	time.sleep(posponer)
+   		nuevo_segmento = turtle.Turtle()
+   		nuevo_segmento.speed(0) #Iniciar pantalla el dibujo este ahi
+   		nuevo_segmento.shape("square") #“arrow”, “turtle”, “circle”, “square”, “triangle”, “classic”.
+   		nuevo_segmento.penup() #Ppara cuando el snape se mueva no deje rastro
+   		nuevo_segmento.color("gray") #Por default viene en negro
+   		nuevo_segmento.goto(0,100)
+
+   	mov()
+   	time.sleep(posponer)
+
+
