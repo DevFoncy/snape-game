@@ -37,38 +37,65 @@ comida.penup() #Ppara cuando el snape se mueva no deje rastro
 comida.color("red") #Por default viene en negro
 comida.goto(0,100)
 
-# Segmentos  / cuerpo serpiente
-segmentos=[]
 
 # Funciones 
+# los nombres arriba, abajo, izquierda, derecha puede variar son string de comparacion
 def arriba():
- cabeza.direction = "up"
+	cabeza.direction = "arriba"
 def abajo():
- cabeza.direction = "down"
+	cabeza.direction = "abajo"
 def izquierda():
- cabeza.direction = "left"
+	cabeza.direction = "izquierda"
 def derecha():
- cabeza.direction = "right"
+	cabeza.direction = "derecha"
 
+# Esta funcion va validar cuando se llega al extremo de la pantalla , eje X y eje Y
+def validarLimites():
+	# Validamos cuando el eje X llega al extremo derecho , en mi caso seria 300px 
+		if cabeza.xcor() == 300:
+								y = cabeza.ycor()
+								cabeza.goto(-280, y)
 
+	# Validamos cuando el eje X llega al extremo izquierda , en mi caso seria -300px 
+		if cabeza.xcor() == -300:
+								y = cabeza.ycor()
+								cabeza.goto(280, y)
+
+	# Validamos cuando el eje Y llega al extremo inferior , en mi caso seria -300px
+		if cabeza.ycor() == -300:
+								x = cabeza.xcor()
+								cabeza.goto(x,280)
+														
+ # Validamos cuando el eje Y llega al extremo superior , en mi caso seria 300px
+		if cabeza.ycor() == 300:
+								x = cabeza.xcor()
+								cabeza.goto(x,-280)
+
+		
+
+# los nombres arriba, abajo, izquierda, derecha puede variar son string de comparacion
 def mov():
- if cabeza.direction == 'up' :
-  y= cabeza.ycor() #Obtener coordenadas de la coordenada y
-  cabeza.sety( y + 20) #Aumentmaos 20px en el eje Y
+	if cabeza.direction == 'arriba' :
+		y= cabeza.ycor() #Obtener coordenadas de la coordenada y
+		cabeza.sety( y + 20) #Aumentmaos 20px en el eje Y
 
- if cabeza.direction == 'down' :
-  y= cabeza.ycor() #Obtener coordenadas de la coordenada y
-  cabeza.sety( y - 20) #Aumentmaos 20px en el eje Y
+	if cabeza.direction == 'abajo' :
+		y= cabeza.ycor() #Obtener coordenadas de la coordenada y
+		cabeza.sety( y - 20) #Reducimos 20px en el eje Y
 
- if cabeza.direction == 'left' :
-  x= cabeza.xcor() #Obtener coordenadas de la coordenada y
-  cabeza.setx( x - 20) #Aumentmaos 20px en el eje Y 
+	if cabeza.direction == 'izquierda' :
+		x= cabeza.xcor() #Obtener coordenadas de la coordenada X
+		cabeza.setx( x - 20) #Aumentamos 20px en el eje X 
 
- if cabeza.direction == 'right' :
-  x= cabeza.xcor() #Obtener coordenadas de la coordenada y
-  cabeza.setx( x + 20) #Aumentmaos 20px en el eje Y 
+	if cabeza.direction == 'derecha' :
+		x= cabeza.xcor() #Obtener coordenadas de la coordenada X
+		cabeza.setx( x + 20) #Reducimos 20px en el eje X 
+
+
+
 
 # Teclado
+#Recordar que Up , Down , Left , Right son palabras reservadas de los eventos leidos por el teclado
 wn.listen()
 wn.onkeypress(arriba, "Up")
 wn.onkeypress(abajo, "Down")
@@ -78,21 +105,16 @@ wn.onkeypress(derecha, "Right")
 
 # Estructura de los juegos corriendo en un bucle infinito
 while True:
-   	wn.update()
+			wn.update()
 
-   	if cabeza.distance(comida) < 20:
-   		x=random.randint(-280,280)
-   		y=random.randint(-280,280)
-   		comida.goto(x,y)
+				# Esto es el efecto de comer la comida cuando haya una distancia de 20 y posicionar en un lugar aleatorio en el mapa
+			if cabeza.distance(comida) < 20:
+				x=random.randint(-280,280)
+				y=random.randint(-280,280)
+				comida.goto(x,y)
 
-   		nuevo_segmento = turtle.Turtle()
-   		nuevo_segmento.speed(0) #Iniciar pantalla el dibujo este ahi
-   		nuevo_segmento.shape("square") #“arrow”, “turtle”, “circle”, “square”, “triangle”, “classic”.
-   		nuevo_segmento.penup() #Ppara cuando el snape se mueva no deje rastro
-   		nuevo_segmento.color("gray") #Por default viene en negro
-   		nuevo_segmento.goto(0,100)
-
-   	mov()
-   	time.sleep(posponer)
+			mov()
+			validarLimites()
+			time.sleep(posponer)
 
 
